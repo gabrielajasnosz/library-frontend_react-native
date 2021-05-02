@@ -19,6 +19,7 @@ class LoginScreen extends Component {
     this.state = {
       login: '',
       password: '',
+      loginData: [],
     };
   }
 
@@ -31,7 +32,20 @@ class LoginScreen extends Component {
   }
 
   async handleSignIn() {
-    await this.service.signIn(this.state.login, this.state.password);
+    this.setState({
+      loginData: await this.service.signIn(
+        this.state.login,
+        this.state.password,
+      ),
+    });
+    console.log(this.state.loginData);
+
+    if (
+      this.state.loginData.login !== null &&
+      this.state.loginData.password != null
+    ) {
+      this.props.navigation.navigate('Explore');
+    }
   }
 
   render() {
@@ -44,7 +58,7 @@ class LoginScreen extends Component {
             style={styles.inputs}
             placeholder="Login"
             underlineColorAndroid="transparent"
-            onChangeText={email => this.setState({email})}
+            onChangeText={login => this.setState({login})}
           />
         </View>
 

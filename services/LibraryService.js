@@ -1,39 +1,47 @@
 import React, {Component} from 'react';
 
 class LibraryService extends Component {
-  baseURL = 'http://127.0.0.1:8080';
+  baseURL = 'http://192.168.0.21:8080/ksiegarnia';
 
   constructor() {
     super();
+
+    this.state = {
+      loginValues: [],
+    };
   }
 
-  // getResult = async () => {
-  //   return await fetch(this.baseURL + '/results?last=10')
-  //     .then(response => {
-  //       return response.json();
-  //     })
-  //     .then(json => {
-  //       return json;
-  //     })
-  //     .catch(error => {
-  //       console.log('Api call error' + error);
-  //     });
-  // };
+  getResult = async () => {
+    return await fetch(this.baseURL + '/results?last=10')
+      .then(response => {
+        return response.json();
+      })
+      .then(json => {
+        return json;
+      })
+      .catch(error => {
+        console.log('Api call error' + error);
+      });
+  };
 
-  signIn = async (login, password) => {
-    return await fetch(this.baseURL + '/login', {
+  signIn = async (nick, pass) => {
+    console.log(nick);
+    const requestOptions = {
       method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        login,
-        password,
-      }),
-    }).catch(error => {
-      console.log('POST error: ' + error);
-    });
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({login: nick, password: pass}),
+    };
+
+    return await fetch(this.baseURL + '/login', requestOptions)
+      .then(response => {
+        return response.json();
+      })
+      .then(json => {
+        return json;
+      })
+      .catch(error => {
+        console.log('Api call error' + error);
+      });
   };
 
   // getTests = async () => {

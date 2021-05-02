@@ -10,6 +10,7 @@ import {
 import CustomDrawerContent from './components/CustomDrawerContent';
 import LoginScreen from './components/LoginScreen';
 import RegisterScreen from './components/RegisterScreen';
+import ExploreScreen from './components/ExploreScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -22,6 +23,7 @@ class App extends Component {
           drawerContent={props => <CustomDrawerContent {...props} />}>
           <Drawer.Screen name="Login" component={LoginScreen} />
           <Drawer.Screen name="Register" component={RegisterScreen} />
+          <Drawer.Screen name="Explore" component={ExploreScreen} />
         </Drawer.Navigator>
       </NavigationContainer>
     );
