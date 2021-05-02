@@ -10,11 +10,14 @@ import {
   Alert,
 } from 'react-native';
 
+import LibraryService from '../services/LibraryService';
+
 class LoginScreen extends Component {
+  service = new LibraryService();
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
+      login: '',
       password: '',
     };
   }
@@ -27,8 +30,11 @@ class LoginScreen extends Component {
     this.props.navigation.navigate('Register');
   }
 
+  async handleSignIn() {
+    await this.service.signIn(this.state.login, this.state.password);
+  }
+
   render() {
-    const {navigation} = this.props;
     return (
       <View style={styles.container}>
         <Image style={styles.logoIcon} source={require('../images/logo.png')} />
@@ -36,8 +42,7 @@ class LoginScreen extends Component {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.inputs}
-            placeholder="Email"
-            keyboardType="email-address"
+            placeholder="Login"
             underlineColorAndroid="transparent"
             onChangeText={email => this.setState({email})}
           />
@@ -56,8 +61,7 @@ class LoginScreen extends Component {
         <TouchableHighlight
           underlayColor="#6b5552"
           style={[styles.buttonContainer, styles.loginButton]}
-          //onPress={() => this.onClickListener('login')}
-        >
+          onPress={() => this.handleSignIn()}>
           <Text style={styles.loginText}>Sign In</Text>
         </TouchableHighlight>
 

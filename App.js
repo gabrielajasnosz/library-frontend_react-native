@@ -7,9 +7,9 @@ import {
   createDrawerNavigator,
   DrawerContentScrollView,
 } from '@react-navigation/drawer';
-import CustomDrawerContent from './Components/CustomDrawerContent';
-import LoginScreen from './Components/LoginScreen';
-import RegisterScreen from './Components/RegisterScreen';
+import CustomDrawerContent from './components/CustomDrawerContent';
+import LoginScreen from './components/LoginScreen';
+import RegisterScreen from './components/RegisterScreen';
 
 const Drawer = createDrawerNavigator();
 
