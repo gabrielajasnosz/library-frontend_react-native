@@ -7,6 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
+  ScrollView,
 } from 'react-native';
 
 import LibraryService from '../services/LibraryService';
@@ -30,9 +31,11 @@ class ExploreScreen extends Component {
         <View
           style={{flex: 10, backgroundColor: 'white', flexDirection: 'row'}}>
           <SafeAreaView>
-            {this.state.books.map(element => {
-              return <Book title={element.title} bookId={element.bookId} />;
-            })}
+            <ScrollView>
+              {this.state.books.map(element => {
+                return <Book title={element.title} bookId={element.bookId} />;
+              })}
+            </ScrollView>
           </SafeAreaView>
         </View>
       </View>
