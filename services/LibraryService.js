@@ -11,12 +11,14 @@ class LibraryService extends Component {
     };
   }
 
-  getResult = async () => {
-    return await fetch(this.baseURL + '/results?last=10')
+  getBooks = async () => {
+    return await fetch(this.baseURL + '/ksiazki')
       .then(response => {
+        console.log('dziala');
         return response.json();
       })
       .then(json => {
+        //console.log(json);
         return json;
       })
       .catch(error => {
@@ -40,7 +42,6 @@ class LibraryService extends Component {
         return json;
       })
       .catch(error => {
-
         console.log('Api call error' + error);
         return [];
       });
