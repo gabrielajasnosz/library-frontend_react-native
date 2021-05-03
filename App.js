@@ -11,6 +11,9 @@ import CustomDrawerContent from './components/CustomDrawerContent';
 import LoginScreen from './components/LoginScreen';
 import RegisterScreen from './components/RegisterScreen';
 import ExploreScreen from './components/ExploreScreen';
+import MyShelfScreen from './components/MyShelfScreen';
+import MyAccountScreen from './components/MyAccountScreen';
+import DrawerNavigator from '@react-navigation/drawer/src/navigators/createDrawerNavigator';
 
 const Drawer = createDrawerNavigator();
 
@@ -19,11 +22,17 @@ class App extends Component {
     return (
       <NavigationContainer>
         <Drawer.Navigator
+          drawerStyle={{
+            width: 220,
+          }}
           initialRouteName="Login"
+          overlayColor="transparent"
           drawerContent={props => <CustomDrawerContent {...props} />}>
           <Drawer.Screen name="Login" component={LoginScreen} />
           <Drawer.Screen name="Register" component={RegisterScreen} />
           <Drawer.Screen name="Explore" component={ExploreScreen} />
+          <Drawer.Screen name="MyShelf" component={MyShelfScreen} />
+          <Drawer.Screen name="MyAccount" component={MyAccountScreen} />
         </Drawer.Navigator>
       </NavigationContainer>
     );

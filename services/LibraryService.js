@@ -40,7 +40,9 @@ class LibraryService extends Component {
         return json;
       })
       .catch(error => {
+
         console.log('Api call error' + error);
+        return [];
       });
   };
 

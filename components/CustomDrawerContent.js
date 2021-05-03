@@ -1,17 +1,12 @@
 import React, {Component} from 'react';
 import {
-  FlatList,
   Image,
   SafeAreaView,
   StyleSheet,
   Text,
-  ScrollView,
   View,
   TouchableOpacity,
-  ToastAndroid,
 } from 'react-native';
-
-import {DrawerContentScrollView} from '@react-navigation/drawer';
 
 class CustomDrawerContent extends Component {
   constructor() {
@@ -21,34 +16,96 @@ class CustomDrawerContent extends Component {
   render() {
     const {navigation} = this.props;
     return (
-      <DrawerContentScrollView style={{backgroundColor: 'lightgrey'}}>
-        <Text style={styles.Oswald}>Quiz App</Text>
-      </DrawerContentScrollView>
+      <View style={styles.container}>
+        <Image source={require('../images/logo.png')} style={styles.logo} />
+        <Text style={styles.logoText}>Book Shelf</Text>
+        <View style={styles.buttons}>
+          <TouchableOpacity
+            style={styles.drawerButton}
+            onPress={() => {
+              navigation.navigate('Explore');
+            }}>
+            <Image
+              source={require('../images/explore.png')}
+              style={styles.buttonIcon}
+            />
+            <Text style={styles.buttonText}>Explore</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.drawerButton}
+            onPress={() => {
+              navigation.navigate('MyShelf');
+            }}>
+            <Image
+              source={require('../images/book.png')}
+              style={styles.buttonIcon}
+            />
+            <Text style={styles.buttonText}>My shelf</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.drawerButton}
+            onPress={() => {
+              navigation.navigate('MyAccount');
+            }}>
+            <Image
+              source={require('../images/user.png')}
+              style={styles.buttonIcon}
+            />
+            <Text style={styles.buttonText}>My account</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  drawerButtons: {
-    backgroundColor: 'white',
+  container: {
+    flex: 1,
+    alignContent: 'center',
+    backgroundColor: '#e5d2d2',
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 16.0,
+    elevation: 25,
+  },
+  drawerButton: {
+    backgroundColor: 'transparent',
     alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
+    justifyContent: 'flex-start',
+    paddingLeft: 10,
+    flexDirection: 'row',
     margin: 12,
+    width: 180,
     height: 55,
-    fontWeight: 'bold',
+    borderBottomWidth: 1,
   },
-  Oswald: {
-    fontSize: 30,
-    alignSelf: 'center',
-    margin: 10,
-    fontFamily: 'Oswald-VariableFont_wght',
+  buttons: {
+    paddingTop: 20,
   },
-  OpenSans: {
+  buttonText: {
+    fontFamily: 'Montserrat-SemiBold',
     fontSize: 15,
+    paddingLeft: 20,
+  },
+  buttonIcon: {
+    height: 20,
+    width: 20,
+  },
+  logo: {
+    marginTop: 30,
+    height: 90,
+    width: 90,
     alignSelf: 'center',
-    margin: 10,
-    fontFamily: 'OpenSans-Regular',
+  },
+  logoText: {
+    fontSize: 20,
+    paddingTop: 20,
+    fontFamily: 'Montserrat-SemiBold',
+    alignSelf: 'center',
   },
 });
 

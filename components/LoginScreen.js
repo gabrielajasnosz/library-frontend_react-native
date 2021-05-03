@@ -45,6 +45,8 @@ class LoginScreen extends Component {
       this.state.loginData.password != null
     ) {
       this.props.navigation.navigate('Explore');
+    } else {
+      Alert.alert('Alert', 'Wrong login or password.');
     }
   }
 

@@ -4,7 +4,7 @@ import {StyleSheet, Text, View, SafeAreaView} from 'react-native';
 import LibraryService from '../services/LibraryService';
 import Header from '../components/Header';
 
-class ExploreScreen extends Component {
+class MyShelfScreen extends Component {
   service = new LibraryService();
   constructor(props) {
     super(props);
@@ -13,10 +13,10 @@ class ExploreScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Header navigation={this.props.navigation} title={'Explore'} />
+        <Header navigation={this.props.navigation} title={'My shelf'} />
         <View style={{flex: 10, backgroundColor: 'white'}}>
           <SafeAreaView>
-            <Text>explore</Text>
+            <Text>my shelf</Text>
           </SafeAreaView>
         </View>
       </View>
@@ -33,4 +33,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ExploreScreen;
+export default MyShelfScreen;
