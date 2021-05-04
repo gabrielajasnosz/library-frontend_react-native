@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 class LibraryService extends Component {
-  baseURL = 'http://192.168.0.21:8080/ksiegarnia';
+  baseURL = 'http://192.168.0.241:8080/library';
 
   constructor() {
     super();
@@ -11,8 +11,23 @@ class LibraryService extends Component {
     };
   }
 
+  getBookDetails = async bookId => {
+    return await fetch(this.baseURL + '/book/' + bookId)
+      .then(response => {
+        console.log('dziala');
+        return response.json();
+      })
+      .then(json => {
+        //console.log(json);
+        return json;
+      })
+      .catch(error => {
+        console.log('Api call error' + error);
+      });
+  };
+
   getBooks = async () => {
-    return await fetch(this.baseURL + '/ksiazki')
+    return await fetch(this.baseURL + '/books/all')
       .then(response => {
         console.log('dziala');
         return response.json();

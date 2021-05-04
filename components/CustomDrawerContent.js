@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   buttonText: {
-    fontFamily: 'Montserrat-SemiBold',
+    fontFamily: 'Montserrat-Regular',
     fontSize: 15,
     paddingLeft: 20,
   },
