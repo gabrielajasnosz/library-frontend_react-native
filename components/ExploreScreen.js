@@ -38,8 +38,10 @@ class ExploreScreen extends Component {
     const {navigation} = this.props;
     return (
       <View style={styles.container}>
-        <Header navigation={navigation} title={'Explore'} />
-        <View style={{flex: 10, backgroundColor: 'white'}}>
+        <View style={styles.header}>
+          <Header navigation={navigation} title="Explore" />
+        </View>
+        <View style={{flex: 10, backgroundColor: 'white', marginTop: 10}}>
           <FlatList
             style={styles.list}
             contentContainerStyle={styles.listContainer}
@@ -80,6 +82,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#ffffff',
+  },
+  header: {
+    flex: 1,
+    alignItems: 'center',
   },
   list: {
     marginTop: 5,

@@ -44,10 +44,10 @@ const styles = StyleSheet.create({
   toolbar: {
     display: 'flex',
     width: 370,
-    flex: 1,
     flexDirection: 'row',
-    borderBottomWidth: 1,
     alignItems: 'center',
+    marginBottom: 30,
+    borderBottomWidth:1,
   },
   headline: {
     color: 'black',

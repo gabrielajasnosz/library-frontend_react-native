@@ -12,7 +12,7 @@ class LibraryService extends Component {
   }
 
   getBookDetails = async bookId => {
-    return await fetch(this.baseURL + '/book/' + bookId)
+    return await fetch(this.baseURL + '/books/' + bookId)
       .then(response => {
         console.log('dziala');
         return response.json();
@@ -42,19 +42,22 @@ class LibraryService extends Component {
   };
 
   signIn = async (nick, pass) => {
-    console.log(nick);
-    const requestOptions = {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({login: nick, password: pass}),
-    };
+    const data = {login: nick, password: pass};
+    const url =
+      this.baseURL +
+      `/client/login?login=${encodeURIComponent(
+        data.login,
+      )}&password=${encodeURIComponent(data.password)}`;
 
-    return await fetch(this.baseURL + '/login', requestOptions)
+    console.log(url);
+    return await fetch(url)
       .then(response => {
-        return response.json();
-      })
-      .then(json => {
-        return json;
+        console.log(response.status);
+        if (response.status === 200) {
+          return data;
+        } else {
+          return [];
+        }
       })
       .catch(error => {
         console.log('Api call error' + error);

@@ -26,7 +26,7 @@ class App extends Component {
           drawerStyle={{
             width: 220,
           }}
-          initialRouteName="Explore"
+          initialRouteName="Login"
           overlayColor="transparent"
           drawerContent={props => <CustomDrawerContent {...props} />}>
           <Drawer.Screen name="Login" component={LoginScreen} />
