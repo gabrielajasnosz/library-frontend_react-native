@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 import LibraryService from '../services/LibraryService';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class LoginScreen extends Component {
   service = new LibraryService();
@@ -19,8 +20,18 @@ class LoginScreen extends Component {
     this.state = {
       login: '',
       password: '',
+      isLoggedIn: false,
       loginData: [],
     };
+  }
+
+  async componentDidMount() {
+    const log = JSON.parse(await AsyncStorage.getItem('user'));
+    if (log.login !== null && log.password !== null) {
+      this.setState({
+        isLoggedIn: true,
+      });
+    }
   }
 
   onClickListener = viewId => {
@@ -44,53 +55,62 @@ class LoginScreen extends Component {
       this.state.loginData.login !== null &&
       this.state.loginData.password != null
     ) {
-      this.props.navigation.navigate('Explore', {
-        books: await this.service.getBooks(),
-      });
+      await AsyncStorage.setItem('user', JSON.stringify(this.state.loginData));
+      const log = await AsyncStorage.getItem('user');
+      console.log(log);
+      this.props.navigation.navigate('Explore');
     } else {
       Alert.alert('Alert', 'Wrong login or password.');
     }
   }
 
   render() {
-    return (
-      <View style={styles.container}>
-        <Image style={styles.logoIcon} source={require('../images/logo.png')} />
-        <Text style={styles.logoText}> Book Shelf</Text>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.inputs}
-            placeholder="Login"
-            underlineColorAndroid="transparent"
-            onChangeText={login => this.setState({login})}
+    if (this.state.isLoggedIn === true) {
+      this.props.navigation.navigate('Explore');
+      return null;
+    } else {
+      return (
+        <View style={styles.container}>
+          <Image
+            style={styles.logoIcon}
+            source={require('../images/logo.png')}
           />
+          <Text style={styles.logoText}> Book Shelf</Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.inputs}
+              placeholder="Login"
+              underlineColorAndroid="transparent"
+              onChangeText={login => this.setState({login})}
+            />
+          </View>
+
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.inputs}
+              placeholder="Password"
+              secureTextEntry={true}
+              underlineColorAndroid="transparent"
+              onChangeText={password => this.setState({password})}
+            />
+          </View>
+
+          <TouchableHighlight
+            underlayColor="#6b5552"
+            style={[styles.buttonContainer, styles.loginButton]}
+            onPress={() => this.handleSignIn()}>
+            <Text style={styles.loginText}>Sign In</Text>
+          </TouchableHighlight>
+
+          <TouchableHighlight
+            underlayColor="#6b5552"
+            style={styles.buttonContainer}
+            onPress={() => this.navigateToRegisterScreen()}>
+            <Text>Don't have an account?</Text>
+          </TouchableHighlight>
         </View>
-
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.inputs}
-            placeholder="Password"
-            secureTextEntry={true}
-            underlineColorAndroid="transparent"
-            onChangeText={password => this.setState({password})}
-          />
-        </View>
-
-        <TouchableHighlight
-          underlayColor="#6b5552"
-          style={[styles.buttonContainer, styles.loginButton]}
-          onPress={() => this.handleSignIn()}>
-          <Text style={styles.loginText}>Sign In</Text>
-        </TouchableHighlight>
-
-        <TouchableHighlight
-          underlayColor="#6b5552"
-          style={styles.buttonContainer}
-          onPress={() => this.navigateToRegisterScreen()}>
-          <Text>Don't have an account?</Text>
-        </TouchableHighlight>
-      </View>
-    );
+      );
+    }
   }
 }
 

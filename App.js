@@ -18,6 +18,8 @@ import DrawerNavigator from '@react-navigation/drawer/src/navigators/createDrawe
 
 const Drawer = createDrawerNavigator();
 
+console.disableYellowBox = true;
+
 class App extends Component {
   render() {
     return (

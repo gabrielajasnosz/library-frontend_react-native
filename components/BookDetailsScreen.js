@@ -133,6 +133,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Regular',
   },
   bookContainer: {
+    width: 370,
     flex: 10,
     marginTop: 20,
     padding: 10,

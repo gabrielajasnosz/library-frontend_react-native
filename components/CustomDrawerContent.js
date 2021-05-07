@@ -7,10 +7,16 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class CustomDrawerContent extends Component {
   constructor() {
     super();
+  }
+
+  async logout() {
+    AsyncStorage.removeItem('user');
+    this.props.navigation.navigate('Login');
   }
 
   render() {
@@ -53,6 +59,15 @@ class CustomDrawerContent extends Component {
             />
             <Text style={styles.buttonText}>My account</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.logoutButton}
+            onPress={() => this.logout()}>
+            <Image
+              source={require('../images/logout.png')}
+              style={styles.buttonIcon}
+            />
+            <Text style={styles.logoutText}>Logout</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -83,6 +98,16 @@ const styles = StyleSheet.create({
     height: 55,
     borderBottomWidth: 1,
   },
+  logoutButton: {
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    marginTop:120,
+    paddingLeft: 10,
+    flexDirection: 'row',
+    margin: 12,
+    width: 180,
+    height: 55,
+  },
   buttons: {
     paddingTop: 20,
   },
@@ -106,6 +131,11 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     fontFamily: 'Montserrat-SemiBold',
     alignSelf: 'center',
+  },
+  logoutText: {
+    fontFamily: 'Montserrat-SemiBold',
+    fontSize: 15,
+    paddingLeft: 20,
   },
 });
 
