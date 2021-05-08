@@ -3,9 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  SafeAreaView,
-  FlatList,
-  TouchableOpacity,
   Image,
   ScrollView,
   TouchableHighlight,
@@ -49,10 +46,12 @@ class BookDetailsScreen extends Component {
                 style={{fontFamily: 'Montserrat-Regular', paddingBottom: 5}}>
                 {book.author.name} {book.author.surname}
               </Text>
-              <Text
-                style={{fontFamily: 'Montserrat-SemiBold', paddingBottom: 5}}>
-                {book.title}
-              </Text>
+              <View>
+                <Text
+                  style={{fontFamily: 'Montserrat-SemiBold', paddingBottom: 5}}>
+                  {book.title}
+                </Text>
+              </View>
               <Text style={{fontFamily: 'Montserrat-Regular'}}>
                 {book.publicationDate}
               </Text>
@@ -66,7 +65,7 @@ class BookDetailsScreen extends Component {
               </Text>
             </View>
           </View>
-          <View style={{paddingTop: 20, height: 300}}>
+          <View style={{paddingTop: 20, height: 300, width: 370}}>
             <View style={{width: 150, borderBottomWidth: 1}}>
               <Text
                 style={{
@@ -108,8 +107,8 @@ const styles = StyleSheet.create({
     padding: 20,
     width: 150,
     height: 200,
-    borderWidth: 1,
-    borderColor: 'black',
+    borderWidth: 0.5,
+    borderColor: '#bababa',
   },
   buttonContainer: {
     height: 40,
@@ -133,7 +132,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Regular',
   },
   bookContainer: {
-    width: 370,
+    width: 380,
     flex: 10,
     marginTop: 20,
     padding: 10,
@@ -142,7 +141,7 @@ const styles = StyleSheet.create({
   },
   bookDataStyle: {
     flexDirection: 'column',
-    paddingLeft: 20,
+    paddingLeft: 10,
   },
   descriptionStyle: {
     paddingTop: 10,

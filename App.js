@@ -46,28 +46,4 @@ class App extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  drawerButtons: {
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    margin: 12,
-    height: 55,
-    fontWeight: 'bold',
-  },
-  Oswald: {
-    fontSize: 30,
-    alignSelf: 'center',
-    margin: 10,
-    fontFamily: 'Oswald-VariableFont_wght',
-  },
-  OpenSans: {
-    fontSize: 20,
-    alignSelf: 'center',
-    margin: 10,
-    fontFamily: 'OpenSans-Regular',
-  },
-});
-
 export default App;

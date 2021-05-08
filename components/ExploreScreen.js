@@ -3,11 +3,9 @@ import {
   StyleSheet,
   Text,
   View,
-  SafeAreaView,
   FlatList,
   TouchableOpacity,
   Image,
-  ScrollView,
 } from 'react-native';
 
 import LibraryService from '../services/LibraryService';
@@ -108,8 +106,8 @@ const styles = StyleSheet.create({
     width: 100,
     height: 150,
     alignSelf: 'center',
-    borderWidth: 1,
-    borderColor: 'black',
+    borderWidth: 0.5,
+    borderColor: '#bababa',
   },
 
   title: {

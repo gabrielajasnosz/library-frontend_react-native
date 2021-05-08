@@ -8,15 +8,21 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import LibraryService from '../services/LibraryService';
 
 class CustomDrawerContent extends Component {
+  service = new LibraryService();
+
   constructor() {
     super();
   }
-
   async logout() {
     AsyncStorage.removeItem('user');
     this.props.navigation.navigate('Login');
+  }
+
+  async getClientData() {
+    this.props.navigation.navigate('MyAccount');
   }
 
   render() {
@@ -51,7 +57,7 @@ class CustomDrawerContent extends Component {
           <TouchableOpacity
             style={styles.drawerButton}
             onPress={() => {
-              navigation.navigate('MyAccount');
+              this.getClientData();
             }}>
             <Image
               source={require('../images/user.png')}

@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 
 class LibraryService extends Component {
-  baseURL = 'http://192.168.0.241:8080/library';
+  baseURL = 'http://192.168.0.19:8080/library';
 
   constructor() {
     super();
-
     this.state = {
       loginValues: [],
     };
@@ -38,6 +37,49 @@ class LibraryService extends Component {
       })
       .catch(error => {
         console.log('Api call error' + error);
+      });
+  };
+
+  getUser = async (login, password) => {
+    const url =
+      this.baseURL +
+      `/client?login=${encodeURIComponent(login)}&password=${encodeURIComponent(
+        password,
+      )}`;
+    console.log(login);
+    console.log(password);
+    return await fetch(url)
+      .then(response => {
+        return response.json();
+      })
+      .then(json => {
+        return json;
+      })
+      .catch(error => {
+        console.log('Api call error' + error);
+      });
+  };
+
+  updateUser = async user => {
+    console.log(user);
+    return await fetch(this.baseURL + '/client/update', {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    })
+      .then(response => {
+        console.log(response.status);
+        if (response.status === 200) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+      .catch(error => {
+        console.log('PUT error: ' + error);
       });
   };
 
