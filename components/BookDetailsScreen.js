@@ -6,10 +6,12 @@ import {
   Image,
   ScrollView,
   TouchableHighlight,
+  Alert,
 } from 'react-native';
 
 import LibraryService from '../services/LibraryService';
 import Header from '../components/Header';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class BookDetailsScreen extends Component {
   service = new LibraryService();
@@ -22,6 +24,23 @@ class BookDetailsScreen extends Component {
       return 'AVAILABLE';
     } else {
       return 'NOT AVAILABLE';
+    }
+  }
+
+  async borrowBook(bookId) {
+    let log = JSON.parse(await AsyncStorage.getItem('user'));
+    let canBorrow = await this.service.rentBook(
+      log.login,
+      log.password,
+      bookId,
+    );
+    if (canBorrow === true) {
+      this.props.navigation.navigate('BookDetailsScreen', {
+        book: await this.service.getBookDetails(bookId),
+      });
+      Alert.alert('Alert', 'Book borrowed.');
+    } else {
+      Alert.alert('Alert', 'Book unavailable');
     }
   }
 
@@ -56,11 +75,7 @@ class BookDetailsScreen extends Component {
                 {book.publicationDate}
               </Text>
               <Text
-                style={{
-                  fontFamily: 'Montserrat-Regular',
-                  color: 'green',
-                  paddingTop: 105,
-                }}>
+                style={book.availability === true ? styles.green : styles.red}>
                 {this.getAvailability(book.availability)}
               </Text>
             </View>
@@ -83,7 +98,8 @@ class BookDetailsScreen extends Component {
         <View style={{alignItems: 'center'}}>
           <TouchableHighlight
             underlayColor="#6b5552"
-            style={styles.buttonContainer}>
+            style={styles.buttonContainer}
+            onPress={() => this.borrowBook(book.bookId)}>
             <Text style={styles.loginText}>Borrow</Text>
           </TouchableHighlight>
         </View>
@@ -147,6 +163,16 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     fontFamily: 'OpenSans-Regular',
+  },
+  green: {
+    fontFamily: 'Montserrat-Regular',
+    color: 'green',
+    paddingTop: 105,
+  },
+  red: {
+    color: '#660909',
+    fontFamily: 'Montserrat-Regular',
+    paddingTop: 105,
   },
 });
 

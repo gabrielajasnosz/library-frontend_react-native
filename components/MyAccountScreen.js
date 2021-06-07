@@ -4,13 +4,19 @@ import {
   Text,
   View,
   SafeAreaView,
-  TouchableHighlight, Alert,
+  TouchableHighlight,
+  Alert,
+  Image,
+  TouchableOpacity,
 } from 'react-native';
 
 import LibraryService from '../services/LibraryService';
 import Header from '../components/Header';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {TextInput} from 'react-native-paper';
+
+import open from '../images/eyeopen.png';
+import closed from '../images/eyeclosed.png';
 
 class MyAccountScreen extends Component {
   service = new LibraryService();
@@ -72,6 +78,28 @@ class MyAccountScreen extends Component {
     }
   }
 
+  renderImage() {
+    const imgSource = this.state.isPasswordHidden ? open: closed;
+    return (
+      <Image
+        style={{width: 20, height: 20, alignContent: 'center'}}
+        source={imgSource}
+      />
+    );
+  }
+
+  showPassword() {
+    if (this.state.isPasswordHidden === true) {
+      this.setState({
+        isPasswordHidden: false,
+      });
+    } else {
+      this.setState({
+        isPasswordHidden: true,
+      });
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -116,24 +144,31 @@ class MyAccountScreen extends Component {
             }}
             onChangeText={login => this.setState({login})}
           />
+          <View style={{flexDirection: 'row', height: 60, display: 'flex'}}>
+            <TextInput
+              label="Password"
+              mode="outlined"
+              secureTextEntry={this.state.isPasswordHidden}
+              style={styles.inputs}
+              value={this.state.password}
+              theme={{
+                colors: {
+                  placeholder: 'gray',
+                  text: 'black',
+                  primary: '#8d7777',
+                  underlineColor: 'transparent',
+                  background: '#ffffff',
+                },
+              }}
+              onChangeText={password => this.setState({password})}
+            />
+            <TouchableOpacity
+              style={styles.drawerButton}
+              onPress={() => this.showPassword()}>
+              {this.renderImage()}
+            </TouchableOpacity>
+          </View>
 
-          <TextInput
-            label="Password"
-            mode="outlined"
-            secureTextEntry={this.state.isPasswordHidden}
-            style={styles.inputs}
-            value={this.state.password}
-            theme={{
-              colors: {
-                placeholder: 'gray',
-                text: 'black',
-                primary: '#8d7777',
-                underlineColor: 'transparent',
-                background: '#ffffff',
-              },
-            }}
-            onChangeText={password => this.setState({password})}
-          />
           <TextInput
             label="Phone Number"
             mode="outlined"
@@ -298,6 +333,13 @@ const styles = StyleSheet.create({
   loginText: {
     color: 'white',
     fontFamily: 'Montserrat-Regular',
+  },
+  drawerButton: {
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    flexDirection: 'row',
+    margin: 10,
+    height: 55,
   },
 });
 

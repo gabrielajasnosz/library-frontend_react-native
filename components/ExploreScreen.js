@@ -58,8 +58,7 @@ class ExploreScreen extends Component {
                   <Image
                     source={{
                       uri:
-                        'http://192.168.0.21:8080/ksiegarnia/image/' +
-                        item.bookId,
+                        'http://192.168.56.1:8080/library/image/' + item.bookId,
                     }}
                     style={styles.imageStyle}
                   />

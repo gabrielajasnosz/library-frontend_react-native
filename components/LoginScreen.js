@@ -8,10 +8,13 @@ import {
   TouchableHighlight,
   Image,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 
 import LibraryService from '../services/LibraryService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import open from '../images/eyeopen.png';
+import closed from '../images/eyeclosed.png';
 
 class LoginScreen extends Component {
   service = new LibraryService();
@@ -22,16 +25,29 @@ class LoginScreen extends Component {
       password: '',
       isLoggedIn: false,
       loginData: [],
+      isPasswordHidden: true,
     };
   }
 
   async componentDidMount() {
     const log = JSON.parse(await AsyncStorage.getItem('user'));
+    console.log(log.login);
+    console.log(log.password);
     if (log.login !== null && log.password !== null) {
       this.setState({
         isLoggedIn: true,
       });
     }
+  }
+
+  renderImage() {
+    const imgSource = this.state.isPasswordHidden ? open : closed;
+    return (
+      <Image
+        style={{width: 20, height: 20, alignContent: 'center'}}
+        source={imgSource}
+      />
+    );
   }
 
   onClickListener = viewId => {
@@ -40,6 +56,18 @@ class LoginScreen extends Component {
 
   navigateToRegisterScreen() {
     this.props.navigation.navigate('Register');
+  }
+
+  showPassword() {
+    if (this.state.isPasswordHidden === true) {
+      this.setState({
+        isPasswordHidden: false,
+      });
+    } else {
+      this.setState({
+        isPasswordHidden: true,
+      });
+    }
   }
 
   async handleSignIn() {
@@ -51,11 +79,9 @@ class LoginScreen extends Component {
     });
     console.log(this.state.loginData);
 
-    if (
-      this.state.loginData.login !== null &&
-      this.state.loginData.password != null
-    ) {
-      await AsyncStorage.setItem('user', JSON.stringify(this.state.loginData));
+    if (this.state.loginData === true) {
+      let user = {login: this.state.login, password: this.state.password};
+      await AsyncStorage.setItem('user', JSON.stringify(user));
       const log = await AsyncStorage.getItem('user');
       console.log(log);
       this.props.navigation.navigate('Explore');
@@ -84,15 +110,19 @@ class LoginScreen extends Component {
               onChangeText={login => this.setState({login})}
             />
           </View>
-
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.inputs}
               placeholder="Password"
-              secureTextEntry={true}
+              secureTextEntry={this.state.isPasswordHidden}
               underlineColorAndroid="transparent"
               onChangeText={password => this.setState({password})}
             />
+            <TouchableOpacity
+              style={styles.drawerButton}
+              onPress={() => this.showPassword()}>
+              {this.renderImage()}
+            </TouchableOpacity>
           </View>
 
           <TouchableHighlight
@@ -126,6 +156,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 30,
     borderBottomWidth: 1,
+    flexDirection: 'row',
     width: 300,
     height: 45,
     marginBottom: 20,
@@ -163,6 +194,12 @@ const styles = StyleSheet.create({
   loginText: {
     color: 'white',
     fontFamily: 'OpenSans-Regular',
+  },
+  drawerButton: {
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    flexDirection: 'row',
+    height: 55,
   },
 });
 
