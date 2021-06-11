@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,19 +8,42 @@ import {
   Image,
   Alert,
 } from 'react-native';
+import LibraryService from '../services/LibraryService';
 
 class RegisterScreen extends Component {
+  service = new LibraryService();
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
+      login: '',
       password: '',
+      name: '',
+      surname: '',
+      houseNumber: '',
+      phoneNumber: '',
+      street: '',
+      city: '',
+      zipCode: ''
     };
   }
 
-  onClickListener = viewId => {
-    Alert.alert('Alert', 'Button pressed ' + viewId);
-  };
+  async handleRegister() {
+    this.setState({
+      registerData: await this.service.registerUser(
+        this.state.login,
+        this.state.password,
+        this.state.name,
+        this.state.surname,
+        this.state.houseNumber,
+        this.state.phoneNumber,
+        this.state.street,
+        this.state.city,
+        this.state.zipCode
+      ),
+    });
+    this.props.navigation.navigate('Login');
+  }
+
 
   render() {
     return (
@@ -30,10 +53,9 @@ class RegisterScreen extends Component {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.inputs}
-            placeholder="Email"
-            keyboardType="email-address"
+            placeholder="login"
             underlineColorAndroid="transparent"
-            onChangeText={email => this.setState({email})}
+            onChangeText={login => this.setState({ login })}
           />
         </View>
 
@@ -43,14 +65,70 @@ class RegisterScreen extends Component {
             placeholder="Password"
             secureTextEntry={true}
             underlineColorAndroid="transparent"
-            onChangeText={password => this.setState({password})}
+            onChangeText={password => this.setState({ password })}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.inputs}
+            placeholder="Name"
+            underlineColorAndroid="transparent"
+            onChangeText={name => this.setState({ name })}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.inputs}
+            placeholder="Surname"
+            underlineColorAndroid="transparent"
+            onChangeText={surname => this.setState({ surname })}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.inputs}
+            placeholder="House Number"
+            underlineColorAndroid="transparent"
+            onChangeText={houseNumber => this.setState({ houseNumber })}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.inputs}
+            placeholder="Phone Number"
+            underlineColorAndroid="transparent"
+            onChangeText={phoneNumber => this.setState({ phoneNumber })}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.inputs}
+            placeholder="Street"
+            underlineColorAndroid="transparent"
+            onChangeText={street => this.setState({ street })}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.inputs}
+            placeholder="City"
+            underlineColorAndroid="transparent"
+            onChangeText={city => this.setState({ city })}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.inputs}
+            placeholder="Zip Code"
+            underlineColorAndroid="transparent"
+            onChangeText={zipCode => this.setState({ zipCode })}
           />
         </View>
 
         <TouchableHighlight
           underlayColor="#6b5552"
           style={[styles.buttonContainer, styles.registerButton]}
-          onPress={() => this.onClickListener('register')}>
+          onPress={() => this.handleRegister()}>
           <Text style={styles.registerText}>Sign Up</Text>
         </TouchableHighlight>
       </View>
@@ -71,8 +149,8 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     borderBottomWidth: 1,
     width: 300,
-    height: 45,
-    marginBottom: 20,
+    height: 40,
+    marginBottom: 10,
   },
   inputs: {
     fontFamily: 'OpenSans-Regular',

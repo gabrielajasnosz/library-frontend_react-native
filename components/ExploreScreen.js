@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
@@ -16,13 +16,14 @@ class ExploreScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      books: null,
+      books: [],
     };
   }
 
   async componentDidMount() {
     this.setState({
       books: await this.service.getBooks(),
+
     });
   }
 
@@ -32,39 +33,45 @@ class ExploreScreen extends Component {
     });
   }
 
+  renderItem(data) {
+    return (
+      <TouchableOpacity
+        style={styles.card}
+        onPress={() => this.navigateToBookDetails(data.item.bookId)}>
+        {/* eslint-disable-next-line react/jsx-no-undef */}
+        <Image
+          source={{
+            uri:
+              //'http://192.168.56.1:8080/library/image/' + item.bookId,
+              'http://192.168.7.167:8080/library/image/' +
+              data.item.bookId,
+          }}
+          style={styles.imageStyle}
+        />
+        <Text style={styles.title}>{data.item.title}</Text>
+      </TouchableOpacity>
+    );
+  }
+
   render() {
-    const {navigation} = this.props;
+    const { navigation } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.header}>
           <Header navigation={navigation} title="Explore" />
         </View>
-        <View style={{flex: 10, backgroundColor: 'white', marginTop: 10}}>
+
+        <View style={{ flex: 10, backgroundColor: 'white', marginTop: 10 }}>
+
           <FlatList
             style={styles.list}
             contentContainerStyle={styles.listContainer}
             data={this.state.books}
             horizontal={false}
             numColumns={2}
+            renderItem={this.renderItem}
             keyExtractor={item => {
               return item.bookId;
-            }}
-            renderItem={({item}) => {
-              return (
-                <TouchableOpacity
-                  style={styles.card}
-                  onPress={() => this.navigateToBookDetails(item.bookId)}>
-                  {/* eslint-disable-next-line react/jsx-no-undef */}
-                  <Image
-                    source={{
-                      uri:
-                        'http://192.168.56.1:8080/library/image/' + item.bookId,
-                    }}
-                    style={styles.imageStyle}
-                  />
-                  <Text style={styles.title}>{item.title}</Text>
-                </TouchableOpacity>
-              );
             }}
           />
         </View>
