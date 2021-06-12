@@ -140,7 +140,7 @@ class LibraryService extends Component {
             })
             .then(response => {
                 console.log(response.status);
-                if (response.status === 200) {
+                if (response.status === 201) {
                     return true;
                 } else {
                     return false;

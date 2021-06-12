@@ -25,6 +25,7 @@ class ExploreScreen extends Component {
       books: await this.service.getBooks(),
 
     });
+    console.log(books);
   }
 
   async navigateToBookDetails(bookId) {

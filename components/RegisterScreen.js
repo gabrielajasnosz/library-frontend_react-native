@@ -41,7 +41,10 @@ class RegisterScreen extends Component {
         this.state.zipCode
       ),
     });
-    this.props.navigation.navigate('Login');
+    console.log(this.state.registerData)
+    if (this.state.registerData === true) { this.props.navigation.navigate('Login'); }
+    else
+      Alert.alert('Alert', 'Login already taken.');
   }
 
 
