@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
@@ -45,33 +45,33 @@ class BookDetailsScreen extends Component {
   }
 
   render() {
-    const {navigation, route} = this.props;
-    const {book} = route.params;
+    const { navigation, route } = this.props;
+    const { book } = route.params;
     return (
       <View style={styles.container}>
         <View style={styles.header}>
           <Header navigation={navigation} title={book.title} />
         </View>
         <View style={styles.bookContainer}>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             <Image
               source={{
-                uri: 'http://192.168.0.21:8080/ksiegarnia/image/' + book.bookId,
+                uri: 'http://192.168.7.167:8080/library/image/' + book.bookId,
               }}
               style={styles.imageStyle}
             />
             <View style={styles.bookDataStyle}>
               <Text
-                style={{fontFamily: 'Montserrat-Regular', paddingBottom: 5}}>
+                style={{ fontFamily: 'Montserrat-Regular', paddingBottom: 5 }}>
                 {book.author.name} {book.author.surname}
               </Text>
               <View>
                 <Text
-                  style={{fontFamily: 'Montserrat-SemiBold', paddingBottom: 5}}>
+                  style={{ fontFamily: 'Montserrat-SemiBold', paddingBottom: 5 }}>
                   {book.title}
                 </Text>
               </View>
-              <Text style={{fontFamily: 'Montserrat-Regular'}}>
+              <Text style={{ fontFamily: 'Montserrat-Regular' }}>
                 {book.publicationDate}
               </Text>
               <Text
@@ -80,8 +80,8 @@ class BookDetailsScreen extends Component {
               </Text>
             </View>
           </View>
-          <View style={{paddingTop: 20, height: 300, width: 370}}>
-            <View style={{width: 150, borderBottomWidth: 1}}>
+          <View style={{ paddingTop: 20, height: 300, width: 370 }}>
+            <View style={{ width: 150, borderBottomWidth: 1 }}>
               <Text
                 style={{
                   paddingBottom: 10,
@@ -95,7 +95,7 @@ class BookDetailsScreen extends Component {
             </ScrollView>
           </View>
         </View>
-        <View style={{alignItems: 'center'}}>
+        <View style={{ alignItems: 'center' }}>
           <TouchableHighlight
             underlayColor="#6b5552"
             style={styles.buttonContainer}

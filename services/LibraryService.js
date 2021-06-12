@@ -175,6 +175,26 @@ class LibraryService extends Component {
             });
     };
 
+    getRentals = async(login, password) => {
+        const url =
+            this.baseURL +
+            `/books/rented/get_client_rentals?login=${encodeURIComponent(
+        login,
+      )}&password=${encodeURIComponent(password)}`;
+        console.log(login);
+        console.log(password);
+        return await fetch(url)
+            .then(response => {
+                return response.json();
+            })
+            .then(json => {
+                return json;
+            })
+            .catch(error => {
+                console.log('Api call error' + error);
+            });
+    };
+
     // getTests = async () => {
     //   return await fetch(this.baseURL + '/tests')
     //     .then(response => {
