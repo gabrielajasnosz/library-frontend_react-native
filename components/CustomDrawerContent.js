@@ -25,6 +25,13 @@ class CustomDrawerContent extends Component {
     this.props.navigation.navigate('MyAccount');
   }
 
+  async getClientsRentals() {
+    const user = JSON.parse(await AsyncStorage.getItem('user'));
+    this.props.navigation.navigate('MyShelf', {
+      rentals: await this.service.getRentals(user.login, user.password),
+    });
+  }
+
   render() {
     const {navigation} = this.props;
     return (
@@ -46,7 +53,7 @@ class CustomDrawerContent extends Component {
           <TouchableOpacity
             style={styles.drawerButton}
             onPress={() => {
-              navigation.navigate('MyShelf');
+              this.getClientsRentals();
             }}>
             <Image
               source={require('../images/book.png')}
@@ -107,7 +114,7 @@ const styles = StyleSheet.create({
   logoutButton: {
     backgroundColor: 'transparent',
     alignItems: 'center',
-    marginTop:120,
+    marginTop: 120,
     paddingLeft: 10,
     flexDirection: 'row',
     margin: 12,

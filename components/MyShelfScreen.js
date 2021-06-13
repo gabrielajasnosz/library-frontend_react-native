@@ -1,7 +1,15 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
-  StyleSheet, Text, View, SafeAreaView, FlatList, TouchableOpacity,
-  Image, RefreshControl, Button, TouchableHighlight
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  FlatList,
+  TouchableOpacity,
+  Image,
+  RefreshControl,
+  Button,
+  TouchableHighlight,
 } from 'react-native';
 
 import LibraryService from '../services/LibraryService';
@@ -9,78 +17,101 @@ import Header from '../components/Header';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class MyShelfScreen extends Component {
-
   service = new LibraryService();
+
   constructor(props) {
     super(props);
-    this.state = {
-      rentals: null,
-    }
   }
 
-  async forceRefresh() {
-    const user = JSON.parse(await AsyncStorage.getItem('user'));
-    console.log(user.login)
-    this.setState({
-      rentals: await this.service.getRentals(user.login, user.password)
+  async navigateToBookDetails(bookId) {
+    this.props.navigation.navigate('BookDetailsScreen', {
+      book: await this.service.getBookDetails(bookId),
     });
-    console.log(this.state.rentals)
-  }
-  async componentDidMount() {
-    const user = JSON.parse(await AsyncStorage.getItem('user'));
-    console.log(user.login)
-    this.setState({
-      rentals: await this.service.getRentals(user.login, user.password)
-    });
-    console.log(this.state.rentals)
   }
 
   render() {
-    const rentalList = this.state.rentals
+    const {navigation, route} = this.props;
+    const {rentals} = route.params;
     return (
       <View style={styles.container}>
-        <Header navigation={this.props.navigation} title={'My shelf'} />
-        <TouchableHighlight style={styles.buttonContainer}
-          underlayColor="#6b5552" onPress={() => this.forceRefresh()}>
-          <Text style={styles.loginText}>Refresh</Text>
-        </TouchableHighlight>
-        <View style={{ flex: 10, backgroundColor: 'white' }}>
-          <View style={{ flex: 10, backgroundColor: 'white', marginTop: 10 }}>
+        <View style={styles.header}>
+          <Header navigation={navigation} title="My Shelf" />
+        </View>
+        {rentals.length <= 0 && (
+          <View style={{flex: 10, backgroundColor: 'white', marginTop: 10}}>
+            <Text
+              style={{
+                marginTop: 10,
+                fontFamily: 'Montserrat-Regular',
+                paddingBottom: 5,
+                fontSize: 15,
+              }}>
+              {' '}
+              You haven't borrowed any book yet.
+            </Text>
+          </View>
+        )}
+
+        {rentals.length > 0 && (
+          <View style={{flex: 10, backgroundColor: 'white', marginTop: 10}}>
             <FlatList
               style={styles.list}
-              contentContainerStyle={styles.listContainer}
-              data={rentalList}
-              horizontal={false}
-              numColumns={2}
+              data={rentals}
               keyExtractor={item => {
                 return item.rentalId;
               }}
-              renderItem={({ item }) => {
+              renderItem={({item}) => {
                 return (
-                  <>
-                    <TouchableOpacity
-                      style={styles.card}
-                    >
-                      {/* eslint-disable-next-line react/jsx-no-undef */}
-
+                  <TouchableOpacity
+                    style={styles.card}
+                    onPress={() =>
+                      this.navigateToBookDetails(item.book.bookId)
+                    }>
+                    {/* eslint-disable-next-line react/jsx-no-undef */}
+                    <View style={{flexDirection: 'row'}}>
                       <Image
                         source={{
                           uri:
-                            'http://192.168.7.167:8080/library/image/' + item.book.bookId,
+                            'http://192.168.56.1:8080/library/image/' +
+                            item.book.bookId,
                         }}
                         style={styles.imageStyle}
                       />
-                      <Text style={styles.date}>Rental Date:  {item.rentalDate}</Text>
-                      <Text style={styles.date}>Return Date:  {item.returnDate}</Text>
+                      <View style={styles.bookDataStyle}>
+                        <Text
+                          style={{
+                            marginTop: 10,
+                            fontFamily: 'Montserrat-Regular',
+                            paddingBottom: 5,
+                          }}>
+                          {item.book.author.name} {item.book.author.surname}
+                        </Text>
+                        <Text
+                          style={{
+                            fontFamily: 'Montserrat-SemiBold',
+                            paddingBottom: 5,
+                          }}>
+                          {item.book.title}
+                        </Text>
 
-                    </TouchableOpacity>
-
-                  </>
+                        <Text
+                          style={{
+                            fontFamily: 'Montserrat-Regular',
+                            marginTop: 35,
+                          }}>
+                          Rental date: {item.rentalDate}
+                        </Text>
+                        <Text style={{fontFamily: 'Montserrat-Regular'}}>
+                          Return date: {item.returnDate}
+                        </Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
                 );
               }}
             />
           </View>
-        </View>
+        )}
       </View>
     );
   }
@@ -98,49 +129,39 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   list: {
-    marginTop: 5,
-    paddingHorizontal: 5,
+    width: 380,
+    height: 200,
     backgroundColor: 'transparent',
   },
   card: {
-    padding: 20,
+    justifyContent: 'center',
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#cacaca',
     marginVertical: 7,
     backgroundColor: 'white',
-    flexBasis: '50%',
+    flexBasis: '45%',
     marginHorizontal: 5,
   },
-  listContainer: {
-    alignItems: 'center',
-  },
+
   imageStyle: {
-    width: 175,
-    height: 250,
-    alignSelf: 'center',
+    padding: 20,
+    width: 100,
+    height: 150,
     borderWidth: 0.5,
     borderColor: '#bababa',
   },
 
-  date: {
-    fontSize: 12,
+  title: {
+    fontSize: 15,
     flex: 1,
-    paddingTop: 5,
     alignSelf: 'center',
-    color: '#525252',
+    color: '#000000',
     fontFamily: 'Montserrat-Regular',
   },
-  buttonContainer: {
-    width: 180,
-    height: 40,
-    borderRadius: 30,
-    padding: 0,
-    margin: 0,
-    backgroundColor: '#8d7777',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  loginText: {
-    color: 'white',
-    fontFamily: 'Montserrat-Regular',
+  bookDataStyle: {
+    flexDirection: 'column',
+    paddingLeft: 10,
   },
 });
 
